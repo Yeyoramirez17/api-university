@@ -19,6 +19,7 @@ public interface IUserRepository  extends IGenericRepository<User, Long> {
     )
     Boolean existsUser (String identification, String email, String username);
 
+    Optional<User> findByUsernameOrEmail(String username, String email);
 
     Optional<User> findByUsername(String username);
 }

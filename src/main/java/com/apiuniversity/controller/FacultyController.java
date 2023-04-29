@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/faculties")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class FacultyController {
 
@@ -25,18 +25,18 @@ public class FacultyController {
     private final FacultyServiceImpl facultyService;
     private final FacultyMapper mapper;
 
-    @GetMapping
+    @GetMapping("/faculties")
     public ResponseEntity<List<FacultyDTO>> findAll() {
         return new ResponseEntity<>(this.mapper.toFacultyDTOs(this.facultyService.findAll()), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/faculties/{id}")
     public ResponseEntity<FacultyDTO> findById(@PathVariable Long id) {
         Faculty faculty = this.facultyService.findById(id);
         return new ResponseEntity<>(this.mapper.FacultyToDTO(faculty), HttpStatus.OK) ;
     }
 
-    @PostMapping
+    @PostMapping("/faculties")
     public ResponseEntity<Void> save(@Valid @RequestBody FacultyDTO dto) {
         Faculty faculty = this.facultyService.save(this.mapper.dtoToFaculty(dto));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(faculty.getIdFaculty()).toUri();
@@ -44,7 +44,7 @@ public class FacultyController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping
+    @PutMapping("/faculties/{id}")
     public ResponseEntity<FacultyDTO> update (@PathVariable("id") Long id, @RequestBody FacultyDTO dto) {
         dto.setIdFaculty(id);
         Faculty faculty = this.facultyService.update(id, this.mapper.dtoToFaculty(dto));
@@ -52,7 +52,7 @@ public class FacultyController {
         return new ResponseEntity<>(this.mapper.FacultyToDTO(faculty), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/faculties/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.facultyService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

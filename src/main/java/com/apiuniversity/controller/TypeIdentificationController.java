@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/identifications")
+@RequestMapping("/api/v1/identifications")
 @RequiredArgsConstructor
 public class TypeIdentificationController {
 
